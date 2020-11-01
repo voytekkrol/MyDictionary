@@ -12,6 +12,6 @@ namespace MyDictionary.Models
         { 
         
         }
-        public DbSet<Word> Word { get; set; }
+        public DbSet<Word> Words { get; set; }
     }
 }

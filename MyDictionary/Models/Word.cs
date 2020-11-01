@@ -16,5 +16,7 @@ namespace MyDictionary.Models
 
         [Required]
         public string FrenchWord { get; set; }
+
+        public string Lesson { get; set; }
     }
 }
