@@ -42,6 +42,27 @@ namespace MyDictionary.Controllers
             return View(Word);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Upsert()
+        {
+            if (ModelState.IsValid)
+            {
+                if (Word.Id == 0)
+                {
+                    //create
+                    _db.Words.Add(Word);
+                }
+                else
+                {
+                    _db.Words.Update(Word);
+                }
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(Word);
+        }
+
         #region API Calls
         [HttpGet]
         public async Task<IActionResult> GetAll()

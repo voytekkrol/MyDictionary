@@ -12,8 +12,9 @@ function loadDataTable() {
             "datatype": "json"
         },
         "columns": [
-            { "data": "polishWord", "width": "35%" },
-            { "data": "frenchWord", "width": "35%" },
+            { "data": "polishWord", "width": "25%" },
+            { "data": "frenchWord", "width": "25%" },
+            { "data": "lesson", "width": "25%" },
             {
                 "data": "id",
                 "render": function (data) {
@@ -27,7 +28,7 @@ function loadDataTable() {
                             Delete
                         </a>
                         </div>`;
-                }, "width": "30%"
+                }, "width": "25%"
             }
         ],
         "language": {
