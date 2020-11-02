@@ -1,0 +1,74 @@
+﻿
+@model MyDictionary.Models.Word
+
+<br />
+<h2 class="text-info">Choose lesson</h2>
+<br />
+
+<div class="border container" style="padding:30px;">
+    <form method="post">
+        @if (Model.Id != 0)
+        {
+            <input type="hidden" asp-for="Id" />
+        }
+        <input id="correctFrenchWord" type="hidden" asp-for="FrenchWord" />
+
+        <div class="text-dnager" asp-validation-summary="ModelOnly"></div>
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="PolishWord"></label>
+            </div>
+            <div class="col-6">
+                <input asp-for="PolishWord" class="form-control" disabled />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="FrenchWord"></label>
+            </div>
+            <div class="col-6">
+                <input id="inputFrenchWord" idclass="form-control" autocomplete="off" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="Lesson"></label>
+            </div>
+            <div class="col-6">
+                <input asp-for="Lesson" class="form-control" disabled />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-3 ">
+                <button type="submit" class="btn btn-warning form-control" onclick="validateInput()">
+                    Check
+                </button>
+            </div>
+            <div class="col-3 ">
+                <button type="submit" class="btn btn-primary form-control">
+                    New Word
+                </button>
+            </div>
+            <div class="col-3">
+                <a asp-controller="Words" asp-action="Index" class="btn btn-success form-control">Back to List</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        function validateInput() {
+            var correctFrenchWord = document.getElementById("correctFrenchWord").value;
+            var inputFrenchWord = document.getElementById("inputFrenchWord").value;
+
+            if (correctFrenchWord === inputFrenchWord) {
+                alert("Good!")
+            } else {
+                alert("Wrong!");
+            }
+        }
+    </script>
+}
