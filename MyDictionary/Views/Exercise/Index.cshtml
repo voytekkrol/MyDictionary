@@ -11,6 +11,8 @@
         {
             <input type="hidden" asp-for="Id" />
         }
+        <input id="correctFrenchWord" type="hidden" asp-for="FrenchWord" />
+
         <div class="text-dnager" asp-validation-summary="ModelOnly"></div>
         <div class="form-group row">
             <div class="col-3">
@@ -18,7 +20,6 @@
             </div>
             <div class="col-6">
                 <input asp-for="PolishWord" class="form-control" disabled/>
-                <span asp-validation-for="PolishWord" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group row">
@@ -26,8 +27,7 @@
                 <label asp-for="FrenchWord"></label>
             </div>
             <div class="col-6">
-                <input class="form-control" />
-                <span asp-validation-for="FrenchWord" class="text-danger"></span>
+                <input id="inputFrenchWord" idclass="form-control" autocomplete="off" />
             </div>
         </div>
         <div class="form-group row">
@@ -36,13 +36,17 @@
             </div>
             <div class="col-6">
                 <input asp-for="Lesson" class="form-control" disabled />
-                <span asp-validation-for="Lesson" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group row">
-            <div class="col-3 offset-3">
-                <button type="submit" class="btn btn-primary form-control">
+            <div class="col-3 ">
+                <button type="submit" class="btn btn-warning form-control" onclick="validateInput()">
                     Check
+                </button>
+            </div>
+            <div class="col-3 ">
+                <button type="submit" class="btn btn-primary form-control">
+                    New Word
                 </button>
             </div>
             <div class="col-3">
@@ -54,4 +58,17 @@
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        function validateInput() {
+            var correctFrenchWord = document.getElementById("correctFrenchWord").value;
+            var inputFrenchWord = document.getElementById("inputFrenchWord").value;
+
+            if (correctFrenchWord === inputFrenchWord) {
+                alert("Good!")
+            } else {
+                alert("Wrong!");
+            }
+        }
+    </script>
 }
