@@ -24,6 +24,7 @@ namespace MyDictionary.Controllers
             _db = db;
         }
 
+        
         public async Task<IActionResult> Index()
         {
             ExerciseViewModel model = new ExerciseViewModel()
@@ -36,9 +37,9 @@ namespace MyDictionary.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> Exercise()
+        public async Task<IActionResult> Exercise(string lesson)
         {
-            var listOfWords = await _db.Words.ToListAsync();
+            var listOfWords = await _db.Words.Where(w => w.Lesson == lesson).ToListAsync();
             int number = rnd.Next(0, listOfWords.Count);
 
             return View(listOfWords[number]);

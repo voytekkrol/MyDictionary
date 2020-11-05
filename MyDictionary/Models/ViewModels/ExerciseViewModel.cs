@@ -11,5 +11,6 @@ namespace MyDictionary.Models.ViewModels
         public string Lesson { get; set; }
         public Word Word { get; set; }
         public List<string> LessonList { get; set; }
+        public List<Word> WordList { get; set; }
     }
 }
