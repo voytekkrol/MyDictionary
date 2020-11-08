@@ -17,32 +17,44 @@ namespace MyDictionary.Controllers
     {
         private readonly ApplicationDbContext _db;
         Random rnd = new Random();
-        WordLessonComparer lessonComparer = new WordLessonComparer();
+
+        [BindProperty]
+        public ExerciseViewModel ExerciseVM { get; set; }
+
 
         public ExerciseController(ApplicationDbContext db)
         {
             _db = db;
-        }
-
-        
-        public async Task<IActionResult> Index()
-        {
-            ExerciseViewModel model = new ExerciseViewModel()
+            ExerciseVM = new ExerciseViewModel()
             {
                 Word = new Word(),
-                LessonList = await _db.Words.OrderBy(u => u.Lesson).Select(w => w.Lesson).Distinct().ToListAsync()
-                
+                LessonList = _db.Words.OrderBy(u => u.Lesson).Select(w => w.Lesson).Distinct().ToList(),
+                RepetitionList = new List<string>() { "No repetitions", "With Repetitions", "Only wrongs"}
             };
-
-            return View(model);
         }
 
-        public async Task<IActionResult> Exercise(string lesson)
+
+        public IActionResult Index()
         {
-            var listOfWords = await _db.Words.Where(w => w.Lesson == lesson).ToListAsync();
+            return View(ExerciseVM);
+        }
+
+        public async Task<IActionResult> Exercise(string lesson, string repetition)
+        {
+            if (!string.IsNullOrEmpty(lesson))
+            {
+                ExerciseVM.Lesson = lesson;
+            }
+            if (!string.IsNullOrEmpty(repetition))
+            {
+                ExerciseVM.Repetition = repetition;
+            }
+            var listOfWords = await _db.Words.Where(w => w.Lesson == ExerciseVM.Lesson).ToListAsync();
             int number = rnd.Next(0, listOfWords.Count);
 
-            return View(listOfWords[number]);
+            ExerciseVM.Word = listOfWords[number];
+
+            return View(ExerciseVM);
         }
     }
 }

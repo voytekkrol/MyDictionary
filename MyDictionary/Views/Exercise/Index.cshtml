@@ -13,15 +13,25 @@
                     <label class="col-form-label" for="lessons">Choose Lesson: </label>
                 </div>
                 <div class="col-12">
-                    <select asp-for="Lesson" asp-items="@Model.LessonList.ToSelectListItem()" class="form-control" id="lessons"></select>
+                    <select asp-for="@Model.Lesson" asp-items="@Model.LessonList.ToSelectListItem()" class="form-control" id="lessons"></select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-8">
+                    <label class="col-form-label" for="repetitions">Repetitions: </label>
+                </div>
+                <div class="col-12">
+                    <select asp-for="@Model.Repetition" asp-items="@Model.RepetitionList.ToSelectListItem()" class="form-control" id="repetitions" ></select>
                 </div>
             </div>
 
             <div class="form-group row">
                 <div class="col-6 offset-6">
-                    <input type="submit" class="btn btn-info form-control" value="Choose" asp-action="Exercise" asp-route-Lesson="@Model.Lesson"/>
+                    <input type="submit" class="btn btn-info form-control" value="Choose" asp-action="Exercise"  asp-route-Lesson="@Model.Lesson" asp-route-Repetition="@Model.Repetition" />
                 </div>
             </div>
         </form>
     </div>
 </div>
+
+ @*asp-for="Repetition" asp-items="@(new SelectList("No Repetitions", "With Repetitions", "Only Wrongs"))"*@
