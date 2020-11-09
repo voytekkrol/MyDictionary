@@ -16,15 +16,19 @@ namespace MyDictionary.Controllers
     public class ExerciseController : Controller
     {
         private readonly ApplicationDbContext _db;
+        private UsedWord _usedWord;
+
         Random rnd = new Random();
 
         [BindProperty]
         public ExerciseViewModel ExerciseVM { get; set; }
 
 
-        public ExerciseController(ApplicationDbContext db)
+        public ExerciseController(ApplicationDbContext db, UsedWord usedWord)
         {
             _db = db;
+            _usedWord = usedWord;
+            
             ExerciseVM = new ExerciseViewModel()
             {
                 Word = new Word(),
@@ -49,10 +53,22 @@ namespace MyDictionary.Controllers
             {
                 ExerciseVM.Repetition = repetition;
             }
-            var listOfWords = await _db.Words.Where(w => w.Lesson == ExerciseVM.Lesson).ToListAsync();
-            int number = rnd.Next(0, listOfWords.Count);
 
-            ExerciseVM.Word = listOfWords[number];
+            var listOfWords = await _db.Words.Where(w => w.Lesson == ExerciseVM.Lesson).ToListAsync();
+
+            if (_usedWord.UsedWordList == null)
+            {
+                _usedWord.UsedWordList = new List<Word>();
+            }
+
+            if (  ExerciseVM.Repetition.Equals("No repetitions"))
+            {
+                int number = rnd.Next(0, listOfWords.Count);
+                Word tmpWord = listOfWords[number];
+                ExerciseVM.Word = tmpWord;
+                _usedWord.UsedWordList.Add(tmpWord);
+            }
+
 
             return View(ExerciseVM);
         }
