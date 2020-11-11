@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -28,18 +29,22 @@ namespace MyDictionary.Controllers
         {
             _db = db;
             _usedWord = usedWord;
-            
+
             ExerciseVM = new ExerciseViewModel()
             {
                 Word = new Word(),
                 LessonList = _db.Words.OrderBy(u => u.Lesson).Select(w => w.Lesson).Distinct().ToList(),
-                RepetitionList = new List<string>() { "No repetitions", "With Repetitions", "Only wrongs"}
+                RepetitionList = new List<string>() { "No repetitions", "With Repetitions", "Only wrongs" }
             };
         }
 
 
         public IActionResult Index()
         {
+            if (_usedWord.UsedWordList != null)
+            {
+                _usedWord.UsedWordList.Clear();
+            }
             return View(ExerciseVM);
         }
 
@@ -61,7 +66,20 @@ namespace MyDictionary.Controllers
                 _usedWord.UsedWordList = new List<Word>();
             }
 
-            if (  ExerciseVM.Repetition.Equals("No repetitions"))
+            if (ExerciseVM.Repetition.Equals("No repetitions"))
+            {
+                listOfWords.RemoveAll(w => _usedWord.UsedWordList.Exists(x => w.FrenchWord.Equals(x.FrenchWord)));
+                if (listOfWords.Count == 0)
+                {
+                    return RedirectToAction("Index");
+                }
+                int number = rnd.Next(0, listOfWords.Count);
+                Word tmpWord = listOfWords[number];
+                ExerciseVM.Word = tmpWord;
+                _usedWord.UsedWordList.Add(tmpWord);
+            }
+
+            if (ExerciseVM.Repetition.Equals("With Repetitions"))
             {
                 int number = rnd.Next(0, listOfWords.Count);
                 Word tmpWord = listOfWords[number];
