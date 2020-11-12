@@ -12,12 +12,7 @@ namespace MyDictionary.Models.ViewModels
         public Word Word { get; set; }
         public List<string> LessonList { get; set; }
         public string Repetition { get; set; }
-        public List<string> RepetitionList { get; set; } 
-
-
-        
-
-
-
+        public List<string> RepetitionList { get; set; }
+        public bool IsCorrect { get; set; }
     }
 }

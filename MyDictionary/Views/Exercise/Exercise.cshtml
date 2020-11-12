@@ -11,6 +11,7 @@
         {
             <input type="hidden" asp-for="Word.Id" />
         }
+        <input type="hidden" asp-for="IsCorrect" id="isWordCorrect" />
 
         <input id="correctFrenchWord" type="hidden" asp-for="Word.FrenchWord" />
 
@@ -41,7 +42,7 @@
         </div>
         <div class="form-group row">
             <div class="col-3 ">
-                <a asp-controller="Exercise" asp-action="Exercise" asp-route-Lesson="@Model.Lesson" asp-route-Repetition="@Model.Repetition" class="btn btn-warning form-control" onclick="validateInput()">
+                <a class="btn btn-warning form-control" onclick="validateInput()" asp-controller="Exercise" asp-action="Exercise" asp-route-Lesson="@Model.Lesson" asp-route-Repetition="@Model.Repetition" asp-route-IsCorrect="@Model.IsCorrect" asp-route-Word="@Model.Word" >
                     Check
                 </a>
             </div>
@@ -66,9 +67,11 @@
             var inputFrenchWord = document.getElementById("inputFrenchWord").value;
 
             if (correctFrenchWord === inputFrenchWord) {
-                alert("Good!")
+                document.getElementById("isWordCorrect").value = true;
+                alert(document.getElementById("isWordCorrect").value)
             } else {
-                alert("Wrong!");
+                document.getElementById("isWordCorrect").value = false;
+                alert(document.getElementById("isWordCorrect").value);
             }
         }
     </script>

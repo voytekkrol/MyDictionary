@@ -48,7 +48,7 @@ namespace MyDictionary.Controllers
             return View(ExerciseVM);
         }
 
-        public async Task<IActionResult> Exercise(string lesson, string repetition)
+        public async Task<IActionResult> Exercise(string lesson, string repetition, bool isCorrect, Word word)
         {
             if (!string.IsNullOrEmpty(lesson))
             {
@@ -84,7 +84,25 @@ namespace MyDictionary.Controllers
                 int number = rnd.Next(0, listOfWords.Count);
                 Word tmpWord = listOfWords[number];
                 ExerciseVM.Word = tmpWord;
-                _usedWord.UsedWordList.Add(tmpWord);
+            }
+
+            if (ExerciseVM.Repetition.Equals("Only wrongs"))
+            {
+                if (isCorrect == true)
+                {
+                    _usedWord.UsedWordList.Add(word);
+
+                }
+                listOfWords.RemoveAll(w => _usedWord.UsedWordList.Exists(x => w.FrenchWord.Equals(x.FrenchWord)));
+
+                if (listOfWords.Count == 0)
+                {
+                    return RedirectToAction("Index");
+                }
+
+                int number = rnd.Next(0, listOfWords.Count);
+                Word tmpWord = listOfWords[number];
+                ExerciseVM.Word = tmpWord;
             }
 
 
