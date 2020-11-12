@@ -13,6 +13,6 @@ namespace MyDictionary.Models.ViewModels
         public List<string> LessonList { get; set; }
         public string Repetition { get; set; }
         public List<string> RepetitionList { get; set; }
-        public bool IsCorrect { get; set; }
+        public string InputFrenchWord { get; set; }
     }
 }
