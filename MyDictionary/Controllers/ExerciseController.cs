@@ -166,6 +166,8 @@ namespace MyDictionary.Controllers
                 int number = rnd.Next(0, listOfWords.Count);
                 Word tmpWord = listOfWords[number];
                 ExerciseVM.Word = tmpWord;
+                //ExerciseVM.InputFrenchWord = "";
+                
             }
 
 

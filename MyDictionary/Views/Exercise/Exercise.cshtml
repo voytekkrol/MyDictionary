@@ -11,7 +11,7 @@
         {
             <input type="hidden" asp-for="Word.Id" />
         }
-       
+
 
         <input id="correctFrenchWord" type="hidden" asp-for="Word.FrenchWord" />
 
@@ -29,7 +29,7 @@
                 <label asp-for="Word.FrenchWord"></label>
             </div>
             <div class="col-6">
-                <input asp-for="InputFrenchWord" id="inputFrenchWord" idclass="form-control" autocomplete="off" />
+                <input asp-for="InputFrenchWord" id="inputFrenchWord" idclass="form-control" autocomplete="off" server="clear()" />
             </div>
         </div>
         <div class="form-group row">
@@ -42,9 +42,7 @@
         </div>
         <div class="form-group row">
             <div class="col-3 ">
-                <input type="submit" value="Check" onclick="validateInput()"  class="btn btn-warning form-control"  asp-controller="Exercise" asp-action="Exercise" asp-route-Lesson="@Model.Lesson" asp-route-Repetition="@Model.Repetition" asp-route-CorrectFrenchWord="@Model.Word.FrenchWord" asp-route-InputFrenchWord="@Model.InputFrenchWord"></input>
-                    
-                
+                <input type="submit" value="Check" onclick="validateInput()" class="btn btn-warning form-control" asp-controller="Exercise" asp-action="Exercise" asp-route-Lesson="@Model.Lesson" asp-route-Repetition="@Model.Repetition" asp-route-CorrectFrenchWord="@Model.Word.FrenchWord" asp-route-InputFrenchWord="@Model.InputFrenchWord"></input>
             </div>
             <div class="col-3 ">
                 <button type="submit" class="btn btn-primary form-control">
@@ -62,6 +60,10 @@
     <partial name="_ValidationScriptsPartial" />
 
     <script>
+        function clear() {
+            document.getElementById("inputFrenchWord").value = "";
+        }
+
         function validateInput() {
             var correctFrenchWord = document.getElementById("correctFrenchWord").value;
             var inputFrenchWord = document.getElementById("inputFrenchWord").value;
@@ -73,6 +75,7 @@
                 document.getElementById("isWordCorrect").value = false;
                 alert(document.getElementById("isWordCorrect").value);
             }
+            document.getElementById("inputFrenchWord").value = "";
         }
     </script>
 }
