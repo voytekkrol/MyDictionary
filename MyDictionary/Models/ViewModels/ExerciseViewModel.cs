@@ -14,5 +14,6 @@ namespace MyDictionary.Models.ViewModels
         public string Repetition { get; set; }
         public List<string> RepetitionList { get; set; }
         public string InputFrenchWord { get; set; }
+        public string TempInputFrenchWord { get; set; }
     }
 }

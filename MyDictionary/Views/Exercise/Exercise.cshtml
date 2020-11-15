@@ -12,6 +12,7 @@
             <input type="hidden" asp-for="Word.Id" />
         }
 
+        <input id="inputFrenchWord" type="hidden" asp-for="InputFrenchWord"  />
 
         <input id="correctFrenchWord" type="hidden" asp-for="Word.FrenchWord" />
 
@@ -29,7 +30,7 @@
                 <label asp-for="Word.FrenchWord"></label>
             </div>
             <div class="col-6">
-                <input asp-for="InputFrenchWord" id="inputFrenchWord" idclass="form-control" autocomplete="off" server="clear()" />
+                <input asp-for="TempInputFrenchWord" id="tempInputFrenchWord" idclass="form-control" autocomplete="off" />
             </div>
         </div>
         <div class="form-group row">
@@ -60,22 +61,18 @@
     <partial name="_ValidationScriptsPartial" />
 
     <script>
-        function clear() {
-            document.getElementById("inputFrenchWord").value = "";
-        }
 
         function validateInput() {
             var correctFrenchWord = document.getElementById("correctFrenchWord").value;
-            var inputFrenchWord = document.getElementById("inputFrenchWord").value;
+            var inputFrenchWord = document.getElementById("tempInputFrenchWord").value;
 
-            if (correctFrenchWord === inputFrenchWord) {
-                document.getElementById("isWordCorrect").value = true;
-                alert(document.getElementById("isWordCorrect").value)
+            if ((correctFrenchWord.localeCompare(inputFrenchWord)) == 0) {
+                alert("Good")
             } else {
-                document.getElementById("isWordCorrect").value = false;
-                alert(document.getElementById("isWordCorrect").value);
+                alert("Wrong");
             }
-            document.getElementById("inputFrenchWord").value = "";
+            document.getElementById("inputFrenchWord").value = document.getElementById("tempInputFrenchWord").value;
+            document.getElementById("tempInputFrenchWord").value = "";
         }
     </script>
 }
