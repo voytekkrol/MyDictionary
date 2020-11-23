@@ -2,7 +2,7 @@
 @model MyDictionary.Models.ViewModels.ExerciseViewModel
 
 <br />
-<h2 class="text-info">Write French Word</h2>
+<h2 class="text-info">Write French Word @Model.CorrectFrenchWord</h2>
 <br />
 
 <div class="border container" style="padding:30px;">
@@ -12,9 +12,11 @@
             <input type="hidden" asp-for="Word.Id" />
         }
 
-        <input id="inputFrenchWord" type="hidden" asp-for="InputFrenchWord"  />
+        <input id="inputFrenchWord" type="hidden" asp-for="InputFrenchWord" />
 
-        <input id="correctFrenchWord" type="hidden" asp-for="Word.FrenchWord" />
+        <input type="hidden" asp-for="@Model.CorrectFrenchWord" id="correctFrenchWord" />
+
+        <input id="isWordsSame" type="hidden" asp-for="IsWordsSame" />
 
         <div class="text-dnager" asp-validation-summary="ModelOnly"></div>
         <div class="form-group row">
@@ -43,7 +45,7 @@
         </div>
         <div class="form-group row">
             <div class="col-3 ">
-                <input type="submit" value="Check" onclick="validateInput()" class="btn btn-warning form-control" asp-controller="Exercise" asp-action="Exercise" asp-route-Lesson="@Model.Lesson" asp-route-Repetition="@Model.Repetition" asp-route-CorrectFrenchWord="@Model.Word.FrenchWord" asp-route-InputFrenchWord="@Model.InputFrenchWord"></input>
+                <input type="submit" value="Check" onclick="validateInput()" class="btn btn-warning form-control" asp-controller="Exercise" asp-action="Exercise" asp-route-Lesson="@Model.Lesson" asp-route-Repetition="@Model.Repetition" asp-route-CorrectFrenchWord="@Model.Word.FrenchWord" asp-route-InputFrenchWord="@Model.InputFrenchWord" asp-route-IsWordsSame="@Model.IsWordsSame">
             </div>
             <div class="col-3 ">
                 <button type="submit" class="btn btn-primary form-control">
@@ -60,19 +62,27 @@
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
 
-    <script>
+    @*<script>
 
         function validateInput() {
-            var correctFrenchWord = document.getElementById("correctFrenchWord").value;
             var inputFrenchWord = document.getElementById("tempInputFrenchWord").value;
+            var correctFrenchWord = document.getElementById("correctFrenchWord").value;
 
-            if ((correctFrenchWord.localeCompare(inputFrenchWord)) == 0) {
-                alert("Good")
-            } else {
-                alert("Wrong");
+            if ((inputFrenchWord != null) && (correctFrenchWord != null)) {
+
+                alert(correctFrenchWord + " " + inputFrenchWord);
+
+                document.getElementById("inputFrenchWord").value = document.getElementById("tempInputFrenchWord").value;
+                var isWordsSame = (correctFrenchWord.normalize() === inputFrenchWord.normalize());
+                document.getElementById("isWordsSame").value = isWordsSame;
+                if (isWordsSame) {
+                    alert("Good")
+                } else {
+                    alert("Wrong");
+                }
+                document.getElementById("tempInputFrenchWord").value = "";
             }
-            document.getElementById("inputFrenchWord").value = document.getElementById("tempInputFrenchWord").value;
-            document.getElementById("tempInputFrenchWord").value = "";
         }
-    </script>
+
+    </script>*@
 }
