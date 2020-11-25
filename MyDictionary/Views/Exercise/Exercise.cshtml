@@ -1,7 +1,7 @@
 ﻿@model MyDictionary.Models.ViewModels.ExerciseViewModel
 
 <br />
-<h2 class="text-info">@Model.Message</h2>
+<h2 class="text-info">Enter French Word</h2>
 <br />
 
 <div class="border container" style="padding:30px;">
@@ -13,9 +13,7 @@
 
         <input id="inputFrenchWord" type="hidden" asp-for="InputFrenchWord" />
 
-        <input  id="correctFrenchWord" type="hidden" asp-for="CorrectFrenchWord"/>
-
-        <input  type="hidden" asp-for="@Model.Word.FrenchWord"/>
+        <input  id="correctFrenchWord" type="hidden" asp-for="Word.FrenchWord"/>
 
         <div class="text-dnager" asp-validation-summary="ModelOnly"></div>
         <div class="form-group row">
@@ -28,7 +26,7 @@
         </div>
         <div class="form-group row">
             <div class="col-3">
-                <label asp-for="TempInputFrenchWord"></label>
+                <label asp-for="Word.FrenchWord"></label>
             </div>
             <div class="col-6">
                 <input asp-for="TempInputFrenchWord" id="tempInputFrenchWord" idclass="form-control" autocomplete="off" />
@@ -44,7 +42,8 @@
         </div>
         <div class="form-group row">
             <div class="col-3 ">
-                <input type="submit" value="Check" onclick="validateInput()" class="btn btn-warning form-control" asp-controller="Exercise" asp-action="Exercise" asp-route-Lesson="@Model.Lesson" asp-route-Repetition="@Model.Repetition" asp-route-FrenchWord="@Model.Word.FrenchWord" asp-route-InputFrenchWord="@Model.InputFrenchWord" >
+                <input type="submit" value="Check" onclick="validateInput()" class="btn btn-warning form-control" asp-controller="Exercise" asp-action="Exercise" asp-route-Lesson="@Model.Lesson" 
+                       asp-route-Repetition="@Model.Repetition" asp-route-FrenchWord="@Model.Word.FrenchWord" asp-route-InputFrenchWord="@Model.InputFrenchWord" >
             </div>
             <div class="col-3 ">
                 <button type="submit" class="btn btn-primary form-control">
@@ -67,9 +66,14 @@
             var correctFrenchWord = document.getElementById("correctFrenchWord").value;
             if ((inputFrenchWord != null) && (correctFrenchWord != null)) {
                 document.getElementById("inputFrenchWord").value = document.getElementById("tempInputFrenchWord").value;
+
+                if (inputFrenchWord === correctFrenchWord) {
+                    alert("Correct");
+                } else {
+                    alert("Uncorrect")
+                }
                 document.getElementById("tempInputFrenchWord").value = "";
             }
-
         }
     </script>
 }

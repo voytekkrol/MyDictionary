@@ -35,7 +35,6 @@ namespace MyDictionary.Controllers
                 Word = new Word(),
                 LessonList = _db.Words.OrderBy(u => u.Lesson).Select(w => w.Lesson).Distinct().ToList(),
                 RepetitionList = new List<string>() { "No repetitions", "With Repetitions", "Only wrongs" },
-                Message = "You haven`t wrote any word yet"
             };
         }
 
@@ -62,14 +61,14 @@ namespace MyDictionary.Controllers
                 ExerciseVM.Repetition = repetition;
             }
 
-            var listOfWords = await _db.Words.Where(w => w.Lesson == ExerciseVM.Lesson).ToListAsync();
-
             if (_usedWord.UsedWordList == null)
             {
                 _usedWord.UsedWordList = new List<Word>();
             }
 
-            if (ExerciseVM.Repetition.Equals("No repetitions"))
+            var listOfWords = await _db.Words.Where(w => w.Lesson == ExerciseVM.Lesson).ToListAsync();
+
+            if (ExerciseVM.Repetition.Equals(ExerciseVM.RepetitionList[0]))
             {
                 listOfWords.RemoveAll(w => _usedWord.UsedWordList.Exists(x => w.FrenchWord.Equals(x.FrenchWord)));
                 if (listOfWords.Count == 0)
@@ -82,14 +81,14 @@ namespace MyDictionary.Controllers
                 _usedWord.UsedWordList.Add(tmpWord);
             }
 
-            if (ExerciseVM.Repetition.Equals("With Repetitions"))
+            if (ExerciseVM.Repetition.Equals(ExerciseVM.RepetitionList[1]))
             {
                 int number = rnd.Next(0, listOfWords.Count);
                 Word tmpWord = listOfWords[number];
                 ExerciseVM.Word = tmpWord;
             }
 
-            if (ExerciseVM.Repetition.Equals("Only wrongs"))
+            if (ExerciseVM.Repetition.Equals(ExerciseVM.RepetitionList[2]))
             {
                 if (frenchWord != null && frenchWord.Equals(inputFrenchWord))
                 {
@@ -108,11 +107,7 @@ namespace MyDictionary.Controllers
                 Word tmpWord = listOfWords[number];
                 ExerciseVM.Word = tmpWord;
                 ExerciseVM.InputFrenchWord = tmpWord.FrenchWord;
-                ExerciseVM.CorrectFrenchWord = tmpWord.FrenchWord;
-
-
             }
-
             return View(ExerciseVM);
         }
     }
