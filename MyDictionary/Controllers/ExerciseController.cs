@@ -21,7 +21,7 @@ namespace MyDictionary.Controllers
 
         Random rnd = new Random();
 
-        [BindProperty]
+        
         public ExerciseViewModel ExerciseVM { get; set; }
 
 
@@ -34,7 +34,8 @@ namespace MyDictionary.Controllers
             {
                 Word = new Word(),
                 LessonList = _db.Words.OrderBy(u => u.Lesson).Select(w => w.Lesson).Distinct().ToList(),
-                RepetitionList = new List<string>() { "No repetitions", "With Repetitions", "Only wrongs" }
+                RepetitionList = new List<string>() { "No repetitions", "With Repetitions", "Only wrongs" },
+                Message = "You haven`t wrote any word yet"
             };
         }
 
@@ -49,8 +50,8 @@ namespace MyDictionary.Controllers
         }
 
 
-        [HttpPost]
-        public async Task<IActionResult> Exercise(string lesson, string repetition, string correctFrenchWord, string inputFrenchWord, bool isWordsSame)
+        
+        public async Task<IActionResult> Exercise(string lesson, string repetition, string frenchWord, string inputFrenchWord)
         {
             if (!string.IsNullOrEmpty(lesson))
             {
@@ -90,9 +91,9 @@ namespace MyDictionary.Controllers
 
             if (ExerciseVM.Repetition.Equals("Only wrongs"))
             {
-                if (correctFrenchWord != null && correctFrenchWord.Equals(inputFrenchWord))
+                if (frenchWord != null && frenchWord.Equals(inputFrenchWord))
                 {
-                    var word = listOfWords.Where(w => w.FrenchWord.Equals(correctFrenchWord)).FirstOrDefault();
+                    var word = listOfWords.Where(w => w.FrenchWord.Equals(frenchWord)).FirstOrDefault();
                     _usedWord.UsedWordList.Add(word);
 
                 }
@@ -108,6 +109,7 @@ namespace MyDictionary.Controllers
                 ExerciseVM.Word = tmpWord;
                 ExerciseVM.InputFrenchWord = tmpWord.FrenchWord;
                 ExerciseVM.CorrectFrenchWord = tmpWord.FrenchWord;
+
 
             }
 
