@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MyDictionary.Models;
+using MyDictionary.Models.Interfaces;
 using MyDictionary.Models.ViewModels;
 
 namespace MyDictionary
@@ -27,7 +28,7 @@ namespace MyDictionary
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddSingleton<UsedWord>();
+            services.AddSingleton<IUsedWordCollection,UsedWord>();
             services.AddControllersWithViews();
         }
 

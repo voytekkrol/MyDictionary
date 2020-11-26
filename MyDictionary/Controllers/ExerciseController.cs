@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using MyDictionary.Models;
+using MyDictionary.Models.Interfaces;
 using MyDictionary.Models.ViewModels;
 using MyDictionary.Utilitiy;
 
@@ -17,7 +18,7 @@ namespace MyDictionary.Controllers
     public class ExerciseController : Controller
     {
         private readonly ApplicationDbContext _db;
-        private UsedWord _usedWord;
+        private IUsedWordCollection _usedWord;
 
         Random rnd = new Random();
 
@@ -25,7 +26,7 @@ namespace MyDictionary.Controllers
         public ExerciseViewModel ExerciseVM { get; set; }
 
 
-        public ExerciseController(ApplicationDbContext db, UsedWord usedWord)
+        public ExerciseController(ApplicationDbContext db, IUsedWordCollection usedWord)
         {
             _db = db;
             _usedWord = usedWord;
@@ -48,8 +49,6 @@ namespace MyDictionary.Controllers
             return View(ExerciseVM);
         }
 
-
-        
         public async Task<IActionResult> Exercise(string lesson, string repetition, string frenchWord, string inputFrenchWord)
         {
             if (!string.IsNullOrEmpty(lesson))
@@ -75,17 +74,13 @@ namespace MyDictionary.Controllers
                 {
                     return RedirectToAction("Index");
                 }
-                int number = rnd.Next(0, listOfWords.Count);
-                Word tmpWord = listOfWords[number];
-                ExerciseVM.Word = tmpWord;
-                _usedWord.UsedWordList.Add(tmpWord);
+                ExerciseVM.Word = RandomWordFromList.GetRandomWord(listOfWords);
+                _usedWord.UsedWordList.Add(ExerciseVM.Word);
             }
 
             if (ExerciseVM.Repetition.Equals(ExerciseVM.RepetitionList[1]))
             {
-                int number = rnd.Next(0, listOfWords.Count);
-                Word tmpWord = listOfWords[number];
-                ExerciseVM.Word = tmpWord;
+                ExerciseVM.Word = RandomWordFromList.GetRandomWord(listOfWords);
             }
 
             if (ExerciseVM.Repetition.Equals(ExerciseVM.RepetitionList[2]))
@@ -103,10 +98,8 @@ namespace MyDictionary.Controllers
                     return RedirectToAction("Index");
                 }
 
-                int number = rnd.Next(0, listOfWords.Count);
-                Word tmpWord = listOfWords[number];
-                ExerciseVM.Word = tmpWord;
-                ExerciseVM.InputFrenchWord = tmpWord.FrenchWord;
+                ExerciseVM.Word = RandomWordFromList.GetRandomWord(listOfWords);
+                ExerciseVM.InputFrenchWord = ExerciseVM.Word.FrenchWord;
             }
             return View(ExerciseVM);
         }
