@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using MyDictionary.Models;
+using MyDictionary.Models.Constans;
 using MyDictionary.Models.Interfaces;
 using MyDictionary.Models.ViewModels;
 using MyDictionary.Utilitiy;
@@ -35,7 +36,7 @@ namespace MyDictionary.Controllers
             {
                 Word = new Word(),
                 LessonList = _db.Words.OrderBy(u => u.Lesson).Select(w => w.Lesson).Distinct().ToList(),
-                RepetitionList = new List<string>() { "No repetitions", "With Repetitions", "Only wrongs" },
+                RepetitionList = Constans.KindofRepetitionList,
             };
         }
 
