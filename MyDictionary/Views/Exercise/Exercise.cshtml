@@ -40,8 +40,9 @@
                 <input asp-for="Lesson" class="form-control" disabled />
             </div>
         </div>
-        <div class="form-group row">
-            <button type="button" onclick="putLetterInTempInputFrenchWord()" class="btn btn-dark" id="aLetter">a</button>
+        <div class="form-group row ">
+            <button type="button" onclick="putLetterInTempInputFrenchWord('&#224')" class="btn btn-dark m-1" id="aLetter">&#224</button>
+            <button type="button" onclick="putLetterInTempInputFrenchWord('&#226')" class="btn btn-dark m-1" id="aaLetter">&#226</button>
         </div>
         <div class="form-group row">
             <div class="col-3 ">
@@ -79,13 +80,11 @@
             }
         }
 
-        function putLetterInTempInputFrenchWord() {
-            var letter = document.getElementById("aLetter").innerHTML;
-            var tempInputFrenchWord = document.getElementById("tempInputFrenchWord").value;
+        function putLetterInTempInputFrenchWord(clickedLetter) {
+            //alert(clickedLetter);
+            //var letter = document.getElementById("aLetter").innerHTML;
             if (letter != null) {
-                tempInputFrenchWord = tempInputFrenchWord + letter;
-                alert(tempInputFrenchWord);
-                //alert(letter);
+                document.getElementById("tempInputFrenchWord").value += clickedLetter.value;
             }
         }
     </script>
