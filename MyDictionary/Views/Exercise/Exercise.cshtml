@@ -40,22 +40,16 @@
                 <input asp-for="Lesson" class="form-control" disabled />
             </div>
         </div>
-        <div class="form-group row ">
-            <button type="button" onclick="putLetterInTempInputFrenchWord('&#224')" class="btn btn-dark m-1" id="aLetter">&#224</button>
-            <button type="button" onclick="putLetterInTempInputFrenchWord('&#226')" class="btn btn-dark m-1" id="aaLetter">&#226</button>
+        <div>
+            @Html.Partial("DiacreticSignsKeyboard")
         </div>
         <div class="form-group row">
-            <div class="col-3 ">
+            <div class="col-3 offset-3">
                 <input type="submit" value="Check" onclick="validateInput()" class="btn btn-warning form-control" asp-controller="Exercise" asp-action="Exercise" asp-route-Lesson="@Model.Lesson"
                        asp-route-Repetition="@Model.Repetition" asp-route-FrenchWord="@Model.Word.FrenchWord" asp-route-InputFrenchWord="@Model.InputFrenchWord">
             </div>
-            <div class="col-3 ">
-                <button type="submit" class="btn btn-primary form-control">
-                    New Word
-                </button>
-            </div>
             <div class="col-3">
-                <a asp-controller="Words" asp-action="Index" class="btn btn-success form-control">Back to List</a>
+                <a asp-controller="Exercise" asp-action="Index" class="btn btn-success form-control">Back</a>
             </div>
         </div>
     </form>
@@ -71,7 +65,7 @@
             if ((inputFrenchWord != null) && (correctFrenchWord != null)) {
                 document.getElementById("inputFrenchWord").value = document.getElementById("tempInputFrenchWord").value;
 
-                if (inputFrenchWord === correctFrenchWord) {
+                if (inputFrenchWord.toLowerCase() === correctFrenchWord.toLowerCase()) {
                     alert("Correct");
                 } else {
                     alert("Uncorrect")
@@ -79,12 +73,10 @@
                 document.getElementById("tempInputFrenchWord").value = "";
             }
         }
-
         function putLetterInTempInputFrenchWord(clickedLetter) {
-            //alert(clickedLetter);
-            //var letter = document.getElementById("aLetter").innerHTML;
-            if (letter != null) {
-                document.getElementById("tempInputFrenchWord").value += clickedLetter.value;
+            if (clickedLetter != null) {
+                document.getElementById("tempInputFrenchWord").value += clickedLetter;
+                document.getElementById("tempInputFrenchWord").focus();
             }
         }
     </script>

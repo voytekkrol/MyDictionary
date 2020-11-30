@@ -86,7 +86,7 @@ namespace MyDictionary.Controllers
 
             if (ExerciseVM.Repetition.Equals(ExerciseVM.RepetitionList[2]))
             {
-                if (frenchWord != null && frenchWord.Equals(inputFrenchWord))
+                if (frenchWord != null && frenchWord.ToLower().Equals(inputFrenchWord.ToLower()))
                 {
                     var word = listOfWords.Where(w => w.FrenchWord.Equals(frenchWord)).FirstOrDefault();
                     _usedWord.UsedWordList.Add(word);

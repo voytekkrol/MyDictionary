@@ -26,7 +26,7 @@
                 <label asp-for="FrenchWord"></label>
             </div>
             <div class="col-6">
-                <input asp-for="FrenchWord" class="form-control" />
+                <input asp-for="FrenchWord" id="frenchWord" class="form-control" />
                 <span asp-validation-for="FrenchWord" class="text-danger"></span>
             </div>
         </div>
@@ -38,6 +38,9 @@
                 <input asp-for="Lesson" class="form-control" />
                 <span asp-validation-for="Lesson" class="text-danger"></span>
             </div>
+        </div>
+        <div>
+            @Html.Partial("DiacreticSignsKeyboard")
         </div>
         <div class="form-group row">
             <div class="col-3 offset-3">
@@ -55,3 +58,11 @@
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
 }
+
+<script>
+    function putLetterInTempInputFrenchWord(clickedLetter) {
+        if (clickedLetter != null) {
+            document.getElementById("frenchWord").value += clickedLetter;
+        }
+    }
+</script>
