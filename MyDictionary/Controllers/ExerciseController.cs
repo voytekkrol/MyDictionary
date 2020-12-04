@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.Extensions.Logging;
 using MyDictionary.Models;
 using MyDictionary.Models.Constans;
 using MyDictionary.Models.Interfaces;
@@ -18,6 +19,7 @@ namespace MyDictionary.Controllers
 {
     public class ExerciseController : Controller
     {
+        private readonly ILogger<ExerciseController> _logger;
         private readonly ApplicationDbContext _db;
         private IUsedWordCollection _usedWord;
 
@@ -27,10 +29,12 @@ namespace MyDictionary.Controllers
         public ExerciseViewModel ExerciseVM { get; set; }
 
 
-        public ExerciseController(ApplicationDbContext db, IUsedWordCollection usedWord)
+        public ExerciseController(ApplicationDbContext db, IUsedWordCollection usedWord, ILogger<ExerciseController> logger)
+
         {
             _db = db;
             _usedWord = usedWord;
+            _logger = logger;
 
             ExerciseVM = new ExerciseViewModel()
             {
@@ -43,6 +47,7 @@ namespace MyDictionary.Controllers
 
         public IActionResult Index()
         {
+
             if (_usedWord.UsedWordList != null)
             {
                 _usedWord.UsedWordList.Clear();
@@ -50,6 +55,7 @@ namespace MyDictionary.Controllers
             return View(ExerciseVM);
         }
 
+        [HttpPost]
         public async Task<IActionResult> Exercise(string lesson, string repetition, string frenchWord, string inputFrenchWord)
         {
             if (!string.IsNullOrEmpty(lesson))

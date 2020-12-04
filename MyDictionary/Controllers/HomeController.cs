@@ -20,6 +20,7 @@ namespace MyDictionary.Controllers
 
         public IActionResult Index()
         {
+            _logger.LogDebug($"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
             return View();
         }
 
